@@ -38,14 +38,14 @@ export const TodoList = () => {
   return (
     <div className="w-full flex space-x-4">
       {/* Todo status 0 (belum selesai)*/}
-      <ul role="list" className="shadow-lg bg-red-100 rounded p-2 w-1/2 divide-y divide-gray-200">
-        {todos.filter((todo) => todo.status == 0).sort((a, b) => (a.createdAt > b.createdAt) ? 1 : -1).map((todo) => (
+      <ul className="shadow-lg bg-red-100 rounded p-2 w-1/2 divide-y divide-gray-200">
+        {todos.filter((todo) => todo.status === 0).sort((a, b) => (a.createdAt > b.createdAt) ? 1 : -1).map((todo) => (
           <TodoStack todo={todo}/>
         ))}  
       </ul>
       {/* Todo status 1 (selesai)*/}
-      <ul role="list" className="shadow-lg bg-green-100 rounded p-2 w-1/2 divide-y divide-gray-200">
-        {todos.filter((todo) => todo.status == 1).sort((a, b) => (a.createdAt < b.createdAt) ? 1 : -1).map((todo) => (
+      <ul className="shadow-lg bg-green-100 rounded p-2 w-1/2 divide-y divide-gray-200">
+        {todos.filter((todo) => todo.status === 1).sort((a, b) => (a.createdAt < b.createdAt) ? 1 : -1).map((todo) => (
           <TodoStack todo={todo}/>
         ))}  
       </ul>
