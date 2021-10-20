@@ -46,7 +46,6 @@ const todoSlice = createSlice({
     },
     toggleStatus: (state, action) => {
       const index = state.findIndex((todo) => todo.id === parseInt(action.payload.id))
-      console.log(index)
       state[index].status = action.payload.status
     }
   }
