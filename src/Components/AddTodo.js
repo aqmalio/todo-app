@@ -15,6 +15,8 @@ export const AddTodo = () => {
       title: title,
       description: description
     }))
+    setTitle('')
+    setDescription('')
   }
 
   return (

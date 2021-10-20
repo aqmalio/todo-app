@@ -1,8 +1,10 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { toggleStatus } from '../Redux/todoSlice'
+import { changeDetail } from "../Redux/modalDetailSlice";
 
 export const TodoStack = (props) => {
+  const todo = props.todo
   
   const dispatch = useDispatch()
 
@@ -12,14 +14,17 @@ export const TodoStack = (props) => {
       status: event.target.checked ? 1 : 0
     }))
   }
+
+  const openDetail = () => {
+    dispatch(changeDetail({ ...todo, openModal:true }))
+  }
   
-  const todo = props.todo
   return (
     <li className="bg-white py-5 px-4 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
       <div className="divide-y divide-gray-200">
         <div className="relative flex items-start py-4">
-          <div className="min-w-0 flex-1 text-sm">
-            <label htmlFor="comments" className="font-medium text-gray-700">{todo.title}</label>
+          <div className="cursor-pointer min-w-0 flex-1 text-sm" onClick={openDetail}>
+            <label htmlFor="comments" className="font-medium text-gray-700 cursor-pointer hover:underline">{todo.title}</label>
                 <p id="comments-description" className="text-gray-500">{todo.description}</p>
           </div>
           <div className="ml-3 flex flex-col items-end h-5">

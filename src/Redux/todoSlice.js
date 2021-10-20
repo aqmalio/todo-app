@@ -1,39 +1,19 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import moment from "moment";
+
+export const getTodosFromApi = createAsyncThunk('todos/api',
+  async () => {
+    const res = await fetch('https://virtserver.swaggerhub.com/hanabyan/todo/1.0.0/to-do-list')
+    if (res.ok) {
+      const todos = await res.json()
+      return todos
+    }
+  }
+)
 
 const todoSlice = createSlice({
   name: 'todos',
-  initialState: [{
-    id: 1,
-    title: "Make a meal",
-    description: "lorem ipsum",
-    status: 0,
-    createdAt: "2019-11-11 04:00"
-  }, {
-    id: 2,
-    title: "Dinner with family",
-    description: "lorem ipsum",
-    status: 0,
-    createdAt: "2019-11-11 04:00"
-  }, {
-    id: 3,
-    title: "Watch scary movie",
-    description: "lorem ipsum",
-    status: 0,
-    createdAt: "2019-11-13 13:00"
-  }, {
-    id: 4,
-    title: "Learn something new",
-    description: "lorem ipsum",
-    status: 1,
-    createdAt: "2019-11-12 08:00"
-  }, {
-    id: 5,
-    title: "Make a phone call to mom",
-    description: "lorem ipsum",
-    status: 1,
-    createdAt: "2019-11-11 04:00"
-    }],
+  initialState: [],
   reducers: {
     addTodo: (state, action) => {
       state.push({
@@ -44,14 +24,26 @@ const todoSlice = createSlice({
         createdAt: moment().format('YYYY-MM-DD HH:mm')
       })
     },
+    updateTodo: (state, action) => {
+      const index = state.findIndex((todo) => todo.id === parseInt(action.payload.id))
+      state[index].title = action.payload.title
+      state[index].description = action.payload.description
+    },
+    deleteTodo: (state, action) => {
+      return state.filter(todo => todo.id !== parseInt(action.payload.id));
+    },
     toggleStatus: (state, action) => {
       const index = state.findIndex((todo) => todo.id === parseInt(action.payload.id))
-      console.log(index)
       state[index].status = action.payload.status
+    }
+  },
+  extraReducers: {
+    [getTodosFromApi.fulfilled]: (state, action) => {
+      return action.payload 
     }
   }
 })
 
-export const { addTodo, toggleStatus } = todoSlice.actions;
+export const { addTodo, toggleStatus, updateTodo, deleteTodo } = todoSlice.actions;
 
 export default todoSlice.reducer;
