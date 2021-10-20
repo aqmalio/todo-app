@@ -7,13 +7,13 @@ const todoSlice = createSlice({
     "title": "Make a meal",
     "description": "lorem ipsum",
     "status": 0,
-    "createdAt": "2019-11-15 18:00"
+    "createdAt": "2019-11-11 04:00"
   }, {
     "id": 2,
     "title": "Dinner with family",
     "description": "lorem ipsum",
     "status": 0,
-    "createdAt": "2019-11-14 18:00"
+    "createdAt": "2019-11-11 04:00"
   }, {
     "id": 3,
     "title": "Watch scary movie",
@@ -35,17 +35,22 @@ const todoSlice = createSlice({
     }],
   reducers: {
     addTodo: (state, action) => {
+      const time = new Date()
       state.push({
         "id": Date.now(),
         "title": action.payload.title,
-        "description": action.payload.title,
+        "description": action.payload.description,
         "status": 0,
-        "createdAt": Date.now().toString()
+        "createdAt": `${time.getFullYear()}-${time.getMonth()}-${time.getDate()} ${time.getHours()}:${time.getMinutes()}`
       })
+    },
+    toggleStatus: (state, action) => {
+      const index = state.findIndex((todo) => todo.id === action.payload.id)
+      state[index].status = action.payload.status
     }
   }
 })
 
-export const { addTodo } = todoSlice.actions;
+export const { addTodo, toggleStatus } = todoSlice.actions;
 
 export default todoSlice.reducer;
