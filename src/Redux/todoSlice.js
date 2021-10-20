@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import moment from "moment";
 
 const todoSlice = createSlice({
   name: 'todos',
@@ -35,13 +36,12 @@ const todoSlice = createSlice({
     }],
   reducers: {
     addTodo: (state, action) => {
-      let time = new Date()
       state.push({
         id: Date.now(),
         title: action.payload.title,
         description: action.payload.description,
         status: 0,
-        createdAt: `${time.getFullYear()}-${time.getMonth()}-${time.getDate()} ${time.getHours()}:${time.getMinutes()}`
+        createdAt: moment().format('YYYY-MM-DD HH:mm')
       })
     },
     toggleStatus: (state, action) => {
