@@ -11,12 +11,14 @@ export const AddTodo = () => {
   const dispatch = useDispatch()
 
   const onSubmit = () => {
-    dispatch(addTodo({
-      title: title,
-      description: description
-    }))
-    setTitle('')
-    setDescription('')
+    if (title.length > 0) {
+      dispatch(addTodo({
+        title: title,
+        description: description
+      }))
+      setTitle('')
+      setDescription('')
+    }
   }
 
   return (
